@@ -1,6 +1,6 @@
 jlib
 ====
-like jLib.js is my light weight javascript framework that contains all essential methods to simplify and speedup my development.
+like jQuery, jLib.js is my light weight javascript framework that contains all essential methods that i commonly use to simplify and speedup my development.
 
     //hide element by ID
     j('#myText').hide();
