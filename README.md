@@ -26,3 +26,18 @@ like jQuery, jLib.js is my light weight javascript framework that contains all e
     j('#myText').toggle();
     j('.myText').toggle();
     alert('hidden again');
+    //ajax functions with call back
+    /*j.ajax({
+        path: 'ajax.php',
+        data: '?name=Resti',
+        successCallback: function(text) {
+            alert('data is ' + text.responseText);
+        }
+    });*/
+    //update the element innerHtml
+    j('#myDiv').load({        
+        path: 'ajax.php',
+        data: '?name=Resti'
+    });
+    //submit the form
+    j('#myForm').submit();
