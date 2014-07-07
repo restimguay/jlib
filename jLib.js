@@ -1,7 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * jLib.js by Resti M. Guay
+ * JLib.js is the consolidation of commonly use javascript snippets
+ * @param {type} selector
+ * @returns {j.Anonym$0}
  */
 j = function(selector) {
     return {
@@ -17,14 +18,11 @@ j = function(selector) {
          * @returns {DOM}
          */
         getInstance: function() {
-            if (selector.startsWith('.')) {
-                return document.getElementsByClassName(selector.substring(1, selector.length));
-            } else if (selector.startsWith('#')) {
-                return document.getElementById(selector.substring(1, selector.length));
-            } else if (this.isObject(selector)) {
-                return selector;
-            } else if (this.isString(selector)) {
-                return document.getElementById(selector);
+            var elems =document.querySelectorAll(selector);
+            if(elems.length === 1){
+                return elems[0];
+            }else{
+                return elems;
             }
         },
         /**
@@ -112,7 +110,7 @@ j = function(selector) {
                 for (var i = 0; elem[i]; i++) {
                     if (elem[i].style.visibility === '' || elem[i].style.visibility === 'visible') {
                         elem[i].style.visibility = 'hidden';
-                    } else {                        
+                    } else {
                         elem[i].style.visibility = 'visible';
                     }
                 }
@@ -123,10 +121,74 @@ j = function(selector) {
                     this.show();
                 }
             }
+        },
+        load: function(parameter) {
+            var elem = this.getInstance(selector);
+            j.ajax({
+                path: parameter.path,
+                data: parameter.data,
+                successCallback: function(data) {
+                    elem.innerHTML = data;
+                }
+            });
+        },
+        submit: function(parameter) {
+            var elem = this.getInstance(selector);
+            var data= new String();
+            for(var i = 0; elem[i];i++){
+                data = data.concat(elem[i].name + '='  + elem[i].value + '&');                
+            }
+            j.ajax({
+                path: elem.action,
+                data: '?' + data,
+                method:elem.method,
+                successCallback: function(response) {
+                    alert(response);
+                }
+            });
         }
     };
 };
+j.ajax = function(parameter) {
+    var xhr;
+    if (typeof XMLHttpRequest !== 'undefined') {
+        xhr = new XMLHttpRequest();
+    } else {
+        var versions = ["MSXML2.XmlHttp.5.0",
+            "MSXML2.XmlHttp.4.0",
+            "MSXML2.XmlHttp.3.0",
+            "MSXML2.XmlHttp.2.0",
+            "Microsoft.XmlHttp"]
 
+        for (var i = 0, len = versions.length; i < len; i++) {
+            try {
+                xhr = new ActiveXObject(versions[i]);
+                break;
+            }
+            catch (e) {
+            }
+        } // end for
+    }
+    function ensureReadiness() {
+        if (xhr.readyState < 4) {
+            return;
+        }
+        if (xhr.status !== 200) {
+            return;
+        }
+        // all is well  
+        if (xhr.readyState === 4) {
+            if (parameter.successCallback !== undefined) {
+                parameter.successCallback(xhr.responseText);
+            }
+        }
+    }
+    xhr.onreadystatechange = ensureReadiness;
+    var method = parameter.method=undefined?GET:parameter.method;
+
+    xhr.open(method, parameter.path + parameter.data, true);
+    xhr.send();
+};
 /**
  * Check the string if starts with the given pattern
  * @param {String} s

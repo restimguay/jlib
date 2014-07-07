@@ -10,18 +10,29 @@ window.onload = function() {
     //alert(j('#myTextArea').html());    
     //j('#myTextArea').html("hello");
     //alert(j('#myTextArea').html());
-    
-    j('#myTextArea').toggle();
-    j('#myText').toggle();
-    j('.myText').toggle();
-    alert('hidden');
-    j('#myTextArea').toggle();
-    j('#myText').toggle();
-    j('.myText').toggle();
-    alert('visible');
-    j('#myTextArea').toggle();
-    j('#myText').toggle();
-    j('.myText').toggle();
-    alert('hidden again');
-    
+
+    /*j('#myTextArea').toggle();
+     j('#myText').toggle();
+     j('.myText').toggle();
+     alert('hidden');
+     j('#myTextArea').toggle();
+     j('#myText').toggle();
+     j('.myText').toggle();
+     alert('visible');
+     j('#myTextArea').toggle();
+     j('#myText').toggle();
+     j('.myText').toggle();
+     alert('hidden again');*/
+    /*j.ajax({
+        path: 'ajax.php',
+        data: '?name=Resti',
+        successCallback: function(text) {
+            alert('data is ' + text.responseText);
+        }
+    });*/
+    /*j('#myDiv').load({        
+        path: 'ajax.php',
+        data: '?name=Resti'
+    });*/
+    j('#myForm').submit();
 };
